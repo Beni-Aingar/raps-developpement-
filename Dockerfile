@@ -26,4 +26,4 @@ RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/sites-available
 
 RUN sed -i 's|/var/www/html|/var/www/html/public|g' /etc/apache2/apache2.conf
 
-
+RUN php artisan migrate --force
