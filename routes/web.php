@@ -1,8 +1,9 @@
 <?php
 
-use Illuminate\Support\Facades\Route; use App\Models\User; use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Route;
+
+/ |-------------------------------------------------------------------------- | Web Routes |-------------------------------------------------------------------------- /
 
 Route::get('/', function () { return view('welcome'); });
 
-Route::get('/final-setup', function () { try { $user = User::where('email', 'test@test.com')->first() ?: User::where('email', 'beaingar0@gmail.com')->first(); if ($user) { $user->update([ 'name' => 'BENI AINGAR', 'email' => 'beaingar0@gmail.com', 'password' => Hash::make('11Beni@1994.'), ]); return "Compte de BENI AINGAR mis a jour !"; } else { User::create([ 'name' => 'BENI AINGAR', 'email' => 'beaingar0@gmail.com', 'password' => Hash::make('11Beni@1994.'), ]); return "Compte de BENI AINGAR cree !"; } } catch (\Exception $e) { return "Erreur : " . $e->getMessage(); } });
-Route::get('/check-user', function () { $user = \App\Models\User::where('email', 'beaingar0@gmail.com')->first(); return $user ? "L'utilisateur " . $user->name . " existe bien !" : "Utilisateur introuvable..."; });
+// Si vous avez d'autres routes (comme Auth::routes()), elles s'ajouteront à la suite.
