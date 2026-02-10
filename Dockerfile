@@ -1,23 +1,7 @@
 FROM php:8.2-apache
 
-# Installation des dépendances système (ajout de libicu-dev pour intl)
-RUN apt-get update && apt-get install -y 
-
-libpq-dev 
-
-libpng-dev 
-
-libicu-dev 
-
-zip 
-
-unzip 
-
-git 
-
-&& docker-php-ext-configure intl 
-
-&& docker-php-ext-install pdo pdo_pgsql intl
+# Installation des dépendances système et de l'extension intl
+RUN apt-get update && apt-get install -y libpq-dev libpng-dev libicu-dev zip unzip git && docker-php-ext-configure intl && docker-php-ext-install pdo pdo_pgsql intl
 
 RUN a2enmod rewrite
 
@@ -32,7 +16,6 @@ RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/apache2.
 
 COPY --from=composer:2.6 /usr/bin/composer /usr/bin/composer
 
-# On retire --ignore-platform-reqs pour s'assurer que l'install se fait avec intl
 RUN composer install --no-dev --optimize-autoloader
 
 RUN chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache
